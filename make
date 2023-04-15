@@ -957,7 +957,7 @@ EOF
     fi
     
     #Add openssh config=========================================
-    cd ${tag_bootfs}
+    cd ${tag_rootfs}
     sed -e 's/root::/root:$1$NA6OM0Li$99nh752vw4oe7A.gkm2xk1:/' -i ./etc/shadow
         if [ -f "./etc/ssh/sshd_config" ];then
             echo -n "配置 sshd_config, 允许 root 用户登录 ... "
