@@ -955,6 +955,60 @@ EOF
     else
         echo "SHOW_INSTALL_MENU='yes'" >>${op_release}
     fi
+    
+    #Add openssh config=========================================
+    cd ${tag_bootfs}
+    sed -e 's/root::/root:$1$NA6OM0Li$99nh752vw4oe7A.gkm2xk1:/' -i ./etc/shadow
+        if [ -f "./etc/ssh/sshd_config" ];then
+            echo -n "配置 sshd_config, 允许 root 用户登录 ... "
+            sed -e "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/" -i ./etc/ssh/sshd_config 2>/dev/null
+            sed -e "s/#PermitRootLogin no/PermitRootLogin yes/" -i ./etc/ssh/sshd_config 2>/dev/null
+	    echo "完成 "
+	    if [ "$SSH_CIPHERS" != "" ];then
+                echo -n "优化 ssh client ciphers ... "
+		echo "Host *" >> ./etc/ssh/ssh_config
+		echo "    Ciphers $SSH_CIPHERS" >> ./etc/ssh/ssh_config
+		echo "完成"
+	    fi
+	    if [ "$SSHD_CIPHERS" != "" ];then
+                echo -n "优化 ssh server ciphers ... "
+                sed -e "/# Ciphers and keying/a\Ciphers $SSHD_CIPHERS" -i ./etc/ssh/sshd_config 2>/dev/null
+		echo "完成"
+	    fi
+	    echo "#HostkeyAlgorithms +ssh-rsa" >> ./etc/ssh/sshd_config
+	    echo "#PubkeyAcceptedAlgorithms +ssh-rsa" >> ./etc/ssh/sshd_config
+	    echo -n "配置 shadow, 刷新密码更新日期 ... "
+            utc_secs=$(date +%s)
+            days=$(( utc_secs / 86400 ))
+            sed -e "s/:0:0:99999:7:::/:${days}:0:99999:7:::/" -i ./etc/shadow
+	    echo "完成"
+            echo -n "检查sshd用户和组 ... "
+	    if ! grep "sshd:x:22:sshd" ./etc/group >/dev/null;then
+                 echo "sshd_x:22:sshd" >> ./etc/group
+            fi
+	    if ! grep "sshd:x:22:22:sshd:" ./etc/passwd >/dev/null;then
+                 echo "sshd:x:22:22:sshd:/var/run/sshd:/bin/false" >> ./etc/passwd
+            fi
+	    if ! grep "sshd:x:" ./etc/shadow >/dev/null;then
+                 echo "sshd:x:0:0:99999:7:::" >> ./etc/shadow
+            fi
+	    echo "完成"
+	    
+	    echo -n "添加防火墙规则，丢弃目标为 WAN 区域, 端口为 22/TCP 的报文 ... "
+	    cat >> ./etc/config/firewall <<EOF
+config rule
+        option name 'drop-wan-ssh'
+        option src 'wan'
+        option dest 'wan'
+        option dest_port '22'
+        option proto 'tcp'
+        option target 'DROP'
+EOF
+            echo "完成"
+        else
+            echo "未发现 openssh 配置文件， 放弃调整"
+        fi
+    #opensshconfig=========================================================
 
     cd ${current_path}
 
