@@ -972,7 +972,7 @@ EOF
     adjust_openssh_config
     adjust_openclash_config
     use_xrayplug_replace_v2rayplug
-    create_fstab_config
+    #create_fstab_config
     adjust_turboacc_config
     adjust_ntfs_config
     adjust_mosdns_config
