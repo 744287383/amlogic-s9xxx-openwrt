@@ -963,7 +963,7 @@ EOF
     }
 
     # Automatic expansion of the third and fourth partitions
-    echo "yes" >root/.todo_rootfs_resize
+    echo "no" >root/.todo_rootfs_resize
 
     # Relink the kmod program
     [[ -x "sbin/kmod" ]] && (
