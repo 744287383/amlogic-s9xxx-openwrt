@@ -1063,7 +1063,7 @@ EOF
     #copy_uboot_to_fs
     #write_release_info
     #write_banner
-    #config_first_run
+    config_first_run
     #create_snapshot "etc-000"
     #write_uboot_to_disk
     #clean_work_env
