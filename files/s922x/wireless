@@ -7,7 +7,7 @@ config wifi-device 'radio0'
 	option legacy_rates '1'
 	option mu_beamformer '0'
 	option band '5g'
-	option channel '149'
+	option channel 'auto'
 	option htmode 'VHT40'
 
 config wifi-iface 'default_radio0'
