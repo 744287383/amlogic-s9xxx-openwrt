@@ -1511,12 +1511,10 @@ function config_first_run() {
               cp -v "$FIRSTRUN_SCRIPT" ./etc/first_run.sh && \
                   sed -e "s/MYSELF=\$0/MYSELF=\"\/etc\/first_run.sh\"/" -i ./etc/first_run.sh && \
                   chmod 755 ./etc/first_run.sh
-              ls ./etc
-              cat ./etc/first_run.sh
               cp -v "./etc/rc.local" "./etc/rc.local.orig"
               echo -e "${SKIP_MB}\t${BOOT_MB}\t${ROOTFS_MB}" > ./etc/part_size
               sed -e "/exit/i\/etc/first_run.sh >/root/first_run.log 2>&1" -i etc/rc.local
-              cat ./etc/rc.local
+
               echo "完成"
           else
               echo "未发现相关依赖，跳过配置"
