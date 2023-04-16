@@ -47,7 +47,10 @@
 #================================ Set make environment variables ================================
 #
 # Related file storage path
+
 source public_funcs
+DAEMON_JSON="${PWD}/files/s922x/daemon.json"
+
 current_path="${PWD}"
 tmp_path="${current_path}/tmp"
 out_path="${current_path}/out"
