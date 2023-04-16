@@ -50,6 +50,11 @@
 
 source public_funcs
 DAEMON_JSON="${PWD}/files/s922x/daemon.json"
+SND_MOD="${PWD}/files/s922x/snd-meson-g12"
+FORCE_REBOOT="${PWD}/files/s922x/reboot"
+BAL_CONFIG="${PWD}/files/s922x/balance_irq"
+CPUFREQ_INIT="${PWD}/files/s922x/cpufreq"
+WIRELESS_CONFIG="${PWD}/files/s922x/wireless"
 
 current_path="${PWD}"
 tmp_path="${current_path}/tmp"
