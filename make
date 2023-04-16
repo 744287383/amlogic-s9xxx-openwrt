@@ -49,12 +49,86 @@
 # Related file storage path
 
 source public_funcs
-DAEMON_JSON="${PWD}/files/s922x/daemon.json"
+
+KMOD="${PWD}/files/kmod"
+KMOD_BLACKLIST="${PWD}/files/kmod_blacklist"
+MAC_SCRIPT1="${PWD}/files/fix_wifi_macaddr.sh"
+MAC_SCRIPT2="${PWD}/files/find_macaddr.pl"
+MAC_SCRIPT3="${PWD}/files/inc_macaddr.pl"
+CPUSTAT_SCRIPT="${PWD}/files/cpustat"
+CPUSTAT_SCRIPT_PY="${PWD}/files/cpustat.py"
+INDEX_PATCH_HOME="${PWD}/files/index.html.patches"
+GETCPU_SCRIPT="${PWD}/files/getcpu"
+TTYD="${PWD}/files/ttyd"
+FLIPPY="${PWD}/files/scripts_deprecated/flippy_cn"
+BANNER="${PWD}/files/banner"
+
+# 20200314 add
+FMW_HOME="${PWD}/files/firmware"
+SMB4_PATCH="${PWD}/files/smb4.11_enable_smb1.patch"
+SYSCTL_CUSTOM_CONF="${PWD}/files/99-custom.conf"
+
+# 20200709 add
+COREMARK="${PWD}/files/coremark.sh"
+
+# 20200930 add
 SND_MOD="${PWD}/files/s922x/snd-meson-g12"
+DAEMON_JSON="${PWD}/files/s922x/daemon.json"
+
+# 20201006 add
 FORCE_REBOOT="${PWD}/files/s922x/reboot"
+# 20201017 add
+BAL_ETH_IRQ="${PWD}/files/balethirq.pl"
+# 20201026 add
+FIX_CPU_FREQ="${PWD}/files/fixcpufreq.pl"
+SYSFIXTIME_PATCH="${PWD}/files/sysfixtime.patch"
+
+# 20201128 add
+SSL_CNF_PATCH="${PWD}/files/openssl_engine.patch"
+
+# 20201212 add
 BAL_CONFIG="${PWD}/files/s922x/balance_irq"
 CPUFREQ_INIT="${PWD}/files/s922x/cpufreq"
+
+# 20210302 modify
+FIP_HOME="${PWD}/files/meson_btld/with_fip/s922x"
 WIRELESS_CONFIG="${PWD}/files/s922x/wireless"
+# 20210307 add
+SS_LIB="${PWD}/files/ss-glibc/lib-glibc.tar.xz"
+SS_BIN="${PWD}/files/ss-glibc/armv8a_crypto/ss-bin-glibc.tar.xz"
+JQ="${PWD}/files/jq"
+
+# 20210330 add
+DOCKERD_PATCH="${PWD}/files/dockerd.patch"
+
+# 20200416 add
+FIRMWARE_TXZ="${PWD}/files/firmware_armbian.tar.xz"
+BOOTFILES_HOME="${PWD}/files/bootfiles/amlogic"
+GET_RANDOM_MAC="${PWD}/files/get_random_mac.sh"
+
+# 20210618 add
+DOCKER_README="${PWD}/files/DockerReadme.pdf"
+
+# 20210704 add
+SYSINFO_SCRIPT="${PWD}/files/30-sysinfo.sh"
+
+# 20210923 add
+OPENWRT_INSTALL="${PWD}/files/openwrt-install-amlogic"
+OPENWRT_UPDATE="${PWD}/files/openwrt-update-amlogic"
+OPENWRT_KERNEL="${PWD}/files/openwrt-kernel"
+OPENWRT_BACKUP="${PWD}/files/openwrt-backup"
+
+# 20211019 add
+FIRSTRUN_SCRIPT="${PWD}/files/first_run.sh"
+
+# 20211024 add
+MODEL_DB="${PWD}/files/amlogic_model_database.txt"
+# 20211214 add
+P7ZIP="${PWD}/files/7z"
+# 20211217 add
+DDBR="${PWD}/files/openwrt-ddbr"
+
+
 
 current_path="${PWD}"
 tmp_path="${current_path}/tmp"
@@ -964,31 +1038,7 @@ EOF
     else
         echo "SHOW_INSTALL_MENU='yes'" >>${op_release}
     fi
-    #修改wifi信道================
-    cd ${tag_rootfs}
-    if [[ -f "./etc/config/wireless" ]]; then
-        sed -r -i "s/(option channel '[0-9]*')/option channel 'auto'/" ./etc/config/wireless
-    else
-        cat >> ./etc/config/wireless <<EOF
-config wifi-device 'radio0'
-	option type 'mac80211'
-	option path 'platform/soc/ffe03000.sd/mmc_host/mmc0/mmc0:0001/mmc0:0001:1'
-	option band '5g'
-	option country 'US'
-	option channel 'auto'
-	option legacy_rates '1'
-	option mu_beamformer '0'
-
-config wifi-iface 'default_radio0'
-	option device 'radio0'
-	option network 'lan'
-	option mode 'ap'
-	option ssid 'OpenWrt'
-	option encryption 'none'
-EOF
-
-    fi
-    #修改wifi信道================
+    
     #修改根文件系统相关配置=========================================
     cd ${tag_rootfs}
     export TGT_ROOT=${tag_rootfs}
