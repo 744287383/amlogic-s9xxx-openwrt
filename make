@@ -958,9 +958,28 @@ EOF
     fi
     #修改wifi信道================
     cd ${tag_rootfs}
-    pwd
-    ls ./etc/config
-    sed -r -i "s/(option channel '[0-9]*')/option channel 'auto'/" ./etc/config/wireless
+    if [[ -f "./etc/config/wireless" ]]; then
+        sed -r -i "s/(option channel '[0-9]*')/option channel 'auto'/" ./etc/config/wireless
+    else
+        cat >> ./etc/config/wireless <<EOF
+config wifi-device 'radio0'
+	option type 'mac80211'
+	option path 'platform/soc/ffe03000.sd/mmc_host/mmc0/mmc0:0001/mmc0:0001:1'
+	option band '5g'
+	option country 'US'
+	option channel 'auto'
+	option legacy_rates '1'
+	option mu_beamformer '0'
+
+config wifi-iface 'default_radio0'
+	option device 'radio0'
+	option network 'lan'
+	option mode 'ap'
+	option ssid 'OpenWrt'
+	option encryption 'none'
+EOF
+
+    fi
     #修改wifi信道================
     #修改根文件系统相关配置=========================================
     cd ${tag_rootfs}
