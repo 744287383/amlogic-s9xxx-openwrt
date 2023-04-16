@@ -893,8 +893,8 @@ refactor_rootfs() {
     # Add custom startup script
     #custom_startup_script="etc/custom_service/start_service.sh"
     #[[ -x "${custom_startup_script}" && -f "etc/rc.local" ]] && {
-        sed -i '/^exit 0/i\bash /etc/custom_service/start_service.sh' etc/rc.local
-    }
+        #sed -i '/^exit 0/i\bash /etc/custom_service/start_service.sh' etc/rc.local
+    #}
 
     # Modify the cpu mode to schedutil
     [[ -f "etc/config/cpufreq" ]] && sed -i "s/ondemand/schedutil/" etc/config/cpufreq
