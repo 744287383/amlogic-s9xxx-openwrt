@@ -1044,6 +1044,8 @@ EOF
     
     #修改根文件系统相关配置=========================================
     cd ${tag_rootfs}
+    #删除nginx自启动项
+    rm -f ./etc/init.d/nginx
     export TGT_ROOT=${tag_rootfs}
     export TGT_BOOT=${tag_bootfs}
     copy_supplement_files
