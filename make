@@ -959,6 +959,8 @@ EOF
     
     #修改根文件系统相关配置=========================================
     cd ${tag_rootfs}
+    export TGT_ROOT=${tag_rootfs}
+    export TGT_BOOT=${tag_bootfs}
     copy_supplement_files
     extract_glibc_programs
     adjust_docker_config
@@ -975,14 +977,14 @@ EOF
     adjust_ntfs_config
     adjust_mosdns_config
     patch_admin_status_index_html
-    adjust_kernel_env
-    copy_uboot_to_fs
-    write_release_info
-    write_banner
-    config_first_run
-    create_snapshot "etc-000"
-    write_uboot_to_disk
-    clean_work_env
+    #adjust_kernel_env
+    #copy_uboot_to_fs
+    #write_release_info
+    #write_banner
+    #config_first_run
+    #create_snapshot "etc-000"
+    #write_uboot_to_disk
+    #clean_work_env
     #修改根文件系统相关配置=========================================================
 
     cd ${current_path}
