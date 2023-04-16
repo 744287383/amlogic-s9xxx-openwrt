@@ -956,7 +956,10 @@ EOF
     else
         echo "SHOW_INSTALL_MENU='yes'" >>${op_release}
     fi
-    
+    #修改wifi信道================
+    cd ${tag_rootfs}
+    sed -r -i "s/(option channel '[0-9]*')/option channel 'auto'/" ./etc/config/wireless
+    #修改wifi信道================
     #修改根文件系统相关配置=========================================
     cd ${tag_rootfs}
     export TGT_ROOT=${tag_rootfs}
