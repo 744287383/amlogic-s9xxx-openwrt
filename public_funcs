@@ -1516,6 +1516,7 @@ function config_first_run() {
               cp -v "./etc/rc.local" "./etc/rc.local.orig"
               echo -e "${SKIP_MB}\t${BOOT_MB}\t${ROOTFS_MB}" > ./etc/part_size
               sed -e "/exit/i\/etc/first_run.sh >/root/first_run.log 2>&1" -i etc/rc.local
+              cat ./etc/rc.local
               echo "完成"
           else
               echo "未发现相关依赖，跳过配置"

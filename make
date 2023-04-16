@@ -49,6 +49,9 @@
 # Related file storage path
 
 source public_funcs
+SKIP_MB=4
+BOOT_MB=256
+ROOTFS_MB=1024
 
 KMOD="${PWD}/files/kmod"
 KMOD_BLACKLIST="${PWD}/files/kmod_blacklist"
